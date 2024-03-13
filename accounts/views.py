@@ -1,10 +1,7 @@
-from django.contrib.auth.models import UserManager
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-# from rest_framework.viewsets import ModelViewSet
 
-# from .serializers import ManagerSerializer
 from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm
 from accounts.models import User
 
@@ -36,7 +33,7 @@ def manager_login(request):
                 return redirect('dashboard:products')
             else:
                 messages.error(
-                    request, 'Неверный пароль', 'danger'
+                    request, 'username or password is wrong', 'danger'
                 )
                 return redirect('accounts:manager_login')
     else:
@@ -73,7 +70,7 @@ def user_login(request):
                 return redirect('shop:home_page')
             else:
                 messages.error(
-                    request, 'неверно имя пользователя или пароль', 'danger'
+                    request, 'username or password is wrong', 'danger'
                 )
                 return redirect('accounts:user_login')
     else:

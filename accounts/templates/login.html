@@ -4,21 +4,23 @@
     <div class="col-md-6">
         <form method="POST">
             {% csrf_token %}
-            <h3>Вход</h3>
-            <hr>
+
+            <h3>Login</h3>
             {{form}}
+
             <div class="form-group">
-                <button class="btn btn-primary mt-3 w-100" type="submit">Подтвердить</button>
+
+                <button class="btn btn-primary mt-3 w-100" type="submit">Submit</button>
             </div>
             <div class="mt-2 mb-2">
                 <small class="">
-                    <a class="text-decoration-none text-danger" href="{% url 'accounts:password_reset' %}">Забыли пароль?</a>
+                    <a class="text-decoration-none text-danger" href="{% url 'accounts:password_reset' %}">Forgot Password?</a>
                 </small>
             </div>
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                Не зарегистрированы? <a class="text-decoration-none" href="{% url 'accounts:user_register' %}">Создать учетную запись</a>
+                New Here? <a class="text-decoration-none" href="{% url 'accounts:user_register' %}">Create account</a>
             </small>
         </div>
     </div>

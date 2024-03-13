@@ -1,13 +1,12 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
-from accounts import views
-# from views import ProductInfoViewSet
-# from rest_framework.routers import DefaultRouter
-# r = DefaultRouter()
-app_name = 'accounts'
-# r.register(('UserSerializer/',ProductInfoViewSet)
-urlpatterns = [
 
+from accounts import views
+
+
+app_name = 'accounts'
+
+urlpatterns = [
     path('register/', views.user_register, name='user_register'),
     path('login/', views.user_login, name='user_login'),
     path('login/manager/', views.manager_login, name='manager_login'),
@@ -46,5 +45,3 @@ urlpatterns = [
     ),
 ]
 
-
-# + r.urls

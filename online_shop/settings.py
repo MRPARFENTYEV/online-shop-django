@@ -31,11 +31,9 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'shop.apps.ShopConfig',
-    # 'dashboard.apps.DashboardConfig',
-
-
+    'dashboard.apps.DashboardConfig',
 ]
-# 'rest_framework'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,7 +69,7 @@ WSGI_APPLICATION = 'online_shop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-# zareisajad
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -82,7 +80,7 @@ DATABASES = {
         'PASSWORD': 'Sqlzaebal'
     }
 }
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -136,9 +134,9 @@ LOGIN_URL = 'accounts:user_login'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mr.parfentyev@outlook.com'
-EMAIL_HOST_PASSWORD = 'OutLook_Zaebal'
+EMAIL_HOST_USER = 'username@example.com'
+EMAIL_HOST_PASSWORD = 'your-password'

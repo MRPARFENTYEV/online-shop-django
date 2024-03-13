@@ -45,7 +45,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.slug
-
+        
     def get_absolute_url(self):
         return reverse('shop:product_detail', kwargs={'slug':self.slug})# функция reverse конструирует путь -
                                                                         #  reverse('articlrs_2003') -> 'articles/2003'
