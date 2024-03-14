@@ -7,7 +7,8 @@ from shop.models import Product
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=100, unique=True)
-    full_name = models.CharField(max_length=100)    
+    phone = models.EmailField(max_length=11, unique=True)
+    full_name = models.CharField(max_length=100)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     likes = models.ManyToManyField(Product, blank=True, related_name='likes')

@@ -15,7 +15,7 @@ class UserLoginForm(forms.Form):
         )
     )
 
-
+# 'phone'
 class UserRegistrationForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(
@@ -32,10 +32,14 @@ class UserRegistrationForm(forms.Form):
             attrs={'class': 'form-control', 'placeholder': 'password'}
         )
     )
-
+    phone = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': '11 numbers'}
+        )
+    )
 
 class ManagerLoginForm(forms.Form):
-    email = forms.EmailField(
+    email = forms.CharField(
         widget=forms.EmailInput(
             attrs={'class': 'form-control', 'placeholder': 'email'}
         )
@@ -50,4 +54,8 @@ class ManagerLoginForm(forms.Form):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['full_name', 'email']
+        fields = ['full_name', 'email', 'phone']
+
+    # full_name = forms.CharField(label='full_name')
+    # email = forms.EmailField(label='email')
+    # phone = forms.CharField(label='phone')
