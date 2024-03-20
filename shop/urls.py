@@ -1,5 +1,5 @@
 from django.urls import path
-
+from django.conf.global_settings import DEFAULT_CHARSET
 from shop import views
 
 app_name = "shop"
@@ -12,4 +12,5 @@ urlpatterns = [
 	path('favorites/', views.favorites, name='favorites'),
 	path('search/', views.search, name='search'),
 	path('filter/<slug:slug>/', views.filter_by_category, name='filter_by_category'),
+	path('filter_by_store/<slug:slug>/', views.filter_by_store, name='filter_by_store')
 ]

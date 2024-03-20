@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+На Вашу почту отправлен код регистрации. Введите его по ссылке, чтобы подтвердить регистрацию
+<div class="border-top pt-3">
+
+    <small class="text-muted">
+         Ссылка: <a class="text-decoration-none" href="{% url 'accounts:confirm_email' %}">ввести код</a>
+    </small>
+</div>
+
+{% endblock %}

@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
+import codecs
+from django.utils.encoding import force_str
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(models.Model):
@@ -27,10 +30,24 @@ class Category(models.Model):
                                             # Она вызывает метод save() родительского класса (в данном случае Category),
                                             # передавая ему все аргументы, полученные при
                                             # вызове функции (в данном случае self, *args и **kwargs).
-        
+
+
+class Store(models.Model):
+    title = models.CharField(max_length=25)
+    slug = models.SlugField(unique=True)
+
+    class Meta:
+        verbose_name = 'Магазин'
+        verbose_name_plural = 'Магазины'
+
+    def __str__(self):
+        return self.title
+    def get_absolute_url(self):
+        return reverse('shop:product_detail', kwargs={'slug':self.slug})
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='store')
     image = models.ImageField(upload_to='products')
     title = models.CharField(max_length=250)
     description = models.TextField()
@@ -52,5 +69,8 @@ class Product(models.Model):
                                                                         #  reverse('articles_year_month', args = [2011,3]) ->'articles/2011/3
                                                                         #  reverse('articles_year_month', kwargs = ['year':2011,'manth':3]) -> 'articles/2011/3'
     def save(self, *args, **kwargs): #создаю слаги
-        self.slug = slugify(self.title)
+        self.slug = slugify(str(self.title) +'_'+ str(self.store))
         return super().save(*args, **kwargs)
+
+
+

@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'shop.apps.ShopConfig',
     'dashboard.apps.DashboardConfig',
+    # 'djoser',
+    # 'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -59,6 +61,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'online_shop.context_processors.return_cart',
                 'online_shop.context_processors.return_categories',
+
+
             ],
         },
     },
@@ -111,7 +115,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
+DEFAULT_CHARSET = 'utf-8'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -134,9 +138,9 @@ LOGIN_URL = 'accounts:user_login'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
 EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'username@example.com'
-EMAIL_HOST_PASSWORD = 'your-password'
+EMAIL_HOST_USER = 'mr.parfentyev@outlook.com'
+EMAIL_HOST_PASSWORD = 'OutLook_Zaebal'

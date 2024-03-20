@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 
-from shop.models import Product, Category
+from shop.models import Product, Category, Store
 from cart.forms import QuantityForm
 
 
@@ -34,6 +34,7 @@ def product_detail(request, slug):
 		'title':product.title,
 		'product':product,
 		'form':form,
+		'store': product.store,
 		'favorites':'favorites',
 		'related_products':related_products
 	}
@@ -75,8 +76,10 @@ def filter_by_category(request, slug):
 	"""
 	result = []
 	category = Category.objects.filter(slug=slug).first()
+	print(category)
 	[result.append(product) \
 		for product in Product.objects.filter(category=category.id).all()]
+
 	# check if category is parent then get all sub-categories
 	if not category.is_sub:
 		sub_categories = category.sub_categories.all()
@@ -84,5 +87,15 @@ def filter_by_category(request, slug):
 		for category in sub_categories:
 			[result.append(product) \
 				for product in Product.objects.filter(category=category).all()]
+	context = {'products': paginat(request ,result)}
+	return render(request, 'home_page.html', context)
+
+def filter_by_store(request, slug):
+
+	result = []
+	store = Store.objects.filter(slug=slug).first()
+	print(store)
+	[result.append(product) \
+		for product in Product.objects.filter(store=store.id).all()]
 	context = {'products': paginat(request ,result)}
 	return render(request, 'home_page.html', context)

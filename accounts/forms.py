@@ -32,11 +32,6 @@ class UserRegistrationForm(forms.Form):
             attrs={'class': 'form-control', 'placeholder': 'password'}
         )
     )
-    phone = forms.CharField(
-        widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': '11 numbers'}
-        )
-    )
 
 class ManagerLoginForm(forms.Form):
     email = forms.CharField(
@@ -54,7 +49,7 @@ class ManagerLoginForm(forms.Form):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['full_name', 'email', 'phone']
+        fields = ['full_name', 'email']
 
     # full_name = forms.CharField(label='full_name')
     # email = forms.EmailField(label='email')
