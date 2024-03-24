@@ -5,12 +5,19 @@
     <div class="col-md-6">
         <form method="POST">
             {% csrf_token %}
-            <h3>Edit Profile</h3>
+            <h3>Настройки профиля</h3>
             <hr>
             {{ form  }}
+
+            <a href="/accounts/contact/">Изменить контакт и адрес</a>
+
             <div class="form-group">
-                <button class="btn btn-primary mt-3 w-100" type="submit">Update</button>
+                <button class="btn btn-primary mt-3 w-100" type="submit">Обновить информацию</button>
+
             </div>
+
+
         </form>
+
     </div>
 {% endblock %}

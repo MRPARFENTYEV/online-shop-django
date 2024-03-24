@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
+from autoslug import AutoSlugField
 import codecs
 from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
@@ -13,7 +14,7 @@ class Category(models.Model):
         related_name='sub_categories', null=True, blank=True
     )
     is_sub = models.BooleanField(default=False)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = AutoSlugField(populate_from='title')
     class Meta:
         verbose_name = 'Категорию'
         verbose_name_plural = 'Категории'
@@ -25,7 +26,7 @@ class Category(models.Model):
         return reverse('shop:product_detail', kwargs={'slug':self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        # self.slug = slugify(self.title)
         return super().save(*args, **kwargs) # Эта функция сохраняет модель в базе данных.
                                             # Она вызывает метод save() родительского класса (в данном случае Category),
                                             # передавая ему все аргументы, полученные при

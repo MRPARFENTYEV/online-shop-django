@@ -32,7 +32,7 @@
         {% if favorites == 'remove' %}
         <a href="{% url 'shop:remove_from_favorites' product.id %}" class="btn btn-outline-danger mt-2 text-capitalize ">удалить из избранных </a>
         {% else %}
-        <a href="{% url 'shop:add_to_favorites' product.id %}" class="btn btn-outline-success mt-2 text-capitalize ">добавить в избранные </a>
+        <a href="{% url 'shop:add_to_favorites' product.id %}" class="btn btn-outline-danger mt-1  ">Добавить в избранные </a>
         {% endif %}
     </div>
     <!-- product image -->

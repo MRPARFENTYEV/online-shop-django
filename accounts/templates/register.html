@@ -4,16 +4,16 @@
     <div class="col-md-6">
         <form method="POST">
             {% csrf_token %}
-            <h3>Create Account</h3>
+            <h3>Создать учетную запись</h3>
             <hr>
             {{ form }}
             <div class="form-group">
-                <button class="btn btn-primary w-100 mt-2" type="submit">Submit</button>
+                <button class="btn btn-primary w-100 mt-2" type="submit">подтвердить</button>
             </div>
         </form>
         <div class="mt-3">
             <small class="text-muted">
-                Already have an account? <a href="{% url 'accounts:user_login' %}">Login</a>
+                Уже зарегистрированы? <a href="{% url 'accounts:user_login' %}">Войти</a>
             </small>
         </div>
     </div>

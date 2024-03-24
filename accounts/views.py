@@ -7,8 +7,8 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator as token_generator
-from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm
-from accounts.models import User
+from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm, EditContactForm
+from accounts.models import User, Contact
 from django.views import View
 from django.core.exceptions import ValidationError
 from online_shop.settings import EMAIL_HOST_USER
@@ -22,7 +22,7 @@ def create_manager():
     """
     if not User.objects.filter(email="manager@example.com").first():
         user = User.objects.create_user(
-            "manager@example.com", 'shop manager','managerpass1234'
+            "manager@example.com", 'shop manager','123'
         )
         # give this user manager role
         user.is_manager = True
@@ -114,11 +114,9 @@ def user_register(request):
             user = User.objects.create_user(
                 data['email'], data['full_name'], data['password'],
             )
-            gen_code = token_generator.make_token(user)
-            user.objects.update(user_code=str(gen_code))
-            send_mail('Онлайн магазин - Потный айтишник',f'Спасибо за регистрацию {user.full_name}',
-                      [user.email]
-                      )
+
+            send_mail('Онлайн магазин - Потный айтишник',f'Спасибо за регистрацию {user.full_name}',EMAIL_HOST_USER,
+                      [user.email])
 
             # return render(request, 'redirect_confirmation.html')
             return redirect('accounts:user_login')
@@ -141,14 +139,26 @@ def user_login(request):
                 return redirect('shop:home_page')
             else:
                 messages.error(
-                    request, 'username or password is wrong', 'danger'
+                    request, 'Имя или пароль не верны', 'danger'
                 )
                 return redirect('accounts:user_login')
     else:
         form = UserLoginForm()
     context = {'title':'Login', 'form': form}
     return render(request, 'login.html', context)
+def user_contact(request):
 
+    user_post = request.user
+    user_adress = Contact.objects.filter(pk=user_post.id)
+    form = EditContactForm()
+
+    if request.method == 'POST':
+        data = request.POST
+        user_adress.update(user=user_post.id,city=data['city'], street=data['street'], house=data['house'],structure=data['structure'],
+                           building=data['building'], apartment=data['apartment'],phone=data['phone'])
+
+    context = {'adress': user_adress, 'form': form}
+    return render(request, 'contact.html',context)
 
 def user_logout(request):
     logout(request)
@@ -156,10 +166,12 @@ def user_logout(request):
 
 
 def edit_profile(request):
+    print(request.user)
+
     form = EditProfileForm(request.POST, instance=request.user)
     if form.is_valid():
         form.save()
-        messages.success(request, 'Your profile has been updated', 'success')
+        messages.success(request, 'Ваш профиль был изменен', 'success')
         return redirect('accounts:edit_profile')
     else:
         form = EditProfileForm(instance=request.user)

@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="col-md-6">
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Контакты пользователя</h3>
+            <hr>
+            {% for a in adress %}
+            <p>{{ a }}</p>
+            {{ form  }}
+
+            {% endfor %}
+            <div class="form-group">
+                <button class="btn btn-primary mt-3 w-100" type="submit">Обновить информацию</button>
+            </div>
+
+
+
+
+        </form>
+    </div>
+{% endblock %}
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--&lt;!&ndash;{% for a in adress %}&ndash;&gt;-->
+<!--&lt;!&ndash;<p>{{ a }}</p>&ndash;&gt;-->
+<!--{{form}}-->
+<!--{% endfor %}-->
+
+<!--</body>-->
+<!--</html>-->

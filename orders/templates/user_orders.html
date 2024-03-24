@@ -17,7 +17,7 @@
 {% for item in order.items.all  %}
     <div class="border-bottom p-2">
         <p>Продукт: <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}">{{item.product.title}}</a></p>
-        <p>Цена: ${{item.price}}</p>
+        <p>Цена: ₽{{item.price}}</p>
         <p>Количество: {{item.quantity}}</p>
     </div>
 {% endfor %}

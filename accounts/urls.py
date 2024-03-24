@@ -47,7 +47,8 @@ urlpatterns = [
             template_name='password_reset_complete.html',
         ),
         name='password_reset_complete'
-    )
+    ),
+    path('contact/',views.user_contact, name='contact')
 ]
 
 

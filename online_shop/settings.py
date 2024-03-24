@@ -133,7 +133,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
+# CRISPY_TEMPLATE_PACK = 'uni form'
 LOGIN_URL = 'accounts:user_login'
 
 

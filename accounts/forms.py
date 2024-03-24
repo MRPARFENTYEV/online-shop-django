@@ -1,17 +1,17 @@
 from django import forms
 
-from .models import User
+from .models import User, Contact
 
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(
-            attrs={'class': 'form-control', 'placeholder': 'email'}
+            attrs={'class': 'form-control', 'placeholder': 'почта'}
         )
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={'class': 'form-control', 'placeholder': 'password'}
+            attrs={'class': 'form-control', 'placeholder': 'пароль'}
         )
     )
 
@@ -19,29 +19,29 @@ class UserLoginForm(forms.Form):
 class UserRegistrationForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(
-            attrs={'class': 'form-control', 'placeholder': 'email'}
+            attrs={'class': 'form-control', 'placeholder': 'почта'}
         )
     )
     full_name = forms.CharField(
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'full name'}
+            attrs={'class': 'form-control', 'placeholder': 'Введите имя целиком'}
         )
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={'class': 'form-control', 'placeholder': 'password'}
+            attrs={'class': 'form-control', 'placeholder': 'пароль'}
         )
     )
 
 class ManagerLoginForm(forms.Form):
     email = forms.CharField(
         widget=forms.EmailInput(
-            attrs={'class': 'form-control', 'placeholder': 'email'}
+            attrs={'class': 'form-control', 'placeholder': 'почта'}
         )
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={'class': 'form-control', 'placeholder': 'password'}
+            attrs={'class': 'form-control', 'placeholder': 'пароль'}
         )
     )
 
@@ -54,3 +54,8 @@ class EditProfileForm(forms.ModelForm):
     # full_name = forms.CharField(label='full_name')
     # email = forms.EmailField(label='email')
     # phone = forms.CharField(label='phone')
+class EditContactForm(forms.ModelForm):
+
+    class Meta:
+        model = Contact
+        fields =['city','street','house','structure','building','apartment','phone']

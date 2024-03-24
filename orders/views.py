@@ -11,6 +11,7 @@ from cart.utils.cart import Cart
 @login_required
 def create_order(request):
     cart = Cart(request)
+    print(cart)
     order = Order.objects.create(user=request.user)
     for item in cart:
         OrderItem.objects.create(
