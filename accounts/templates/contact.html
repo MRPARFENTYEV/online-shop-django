@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -7,10 +6,12 @@
             {% csrf_token %}
             <h3>Контакты пользователя</h3>
             <hr>
-            {% for a in adress %}
-            <p>{{ a }}</p>
-            {{ form  }}
 
+            {{ form  }}
+            {% for a in adress %}
+            <p>Ваш указанный адрес:</p>
+            <p>Город: {{ a.city }}, Улица: {{ a.street }}, Дом: {{ a.house }}, Строение: {{ a.building }},
+                Квартира:{{ a.apartment }}, Телефон: {{ a.phone }}</p>
             {% endfor %}
             <div class="form-group">
                 <button class="btn btn-primary mt-3 w-100" type="submit">Обновить информацию</button>
@@ -23,19 +24,3 @@
     </div>
 {% endblock %}
 
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Title</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--&lt;!&ndash;{% for a in adress %}&ndash;&gt;-->
-<!--&lt;!&ndash;<p>{{ a }}</p>&ndash;&gt;-->
-<!--{{form}}-->
-<!--{% endfor %}-->
-
-<!--</body>-->
-<!--</html>-->

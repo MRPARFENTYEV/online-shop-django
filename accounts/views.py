@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator as token_generator
-from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm, EditContactForm
+from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm, EditContactForm, ContactForm
 from accounts.models import User, Contact
 from django.views import View
 from django.core.exceptions import ValidationError
@@ -149,16 +149,37 @@ def user_login(request):
 def user_contact(request):
 
     user_post = request.user
-    user_adress = Contact.objects.filter(pk=user_post.id)
-    form = EditContactForm()
+    user_adress = Contact.objects.filter(user_id=user_post.id)
+    all_adresses = Contact.objects.all()
+    if user_adress:
+        print(user_adress)
+    else: print('create')
 
     if request.method == 'POST':
+        form = EditContactForm()
         data = request.POST
-        user_adress.update(user=user_post.id,city=data['city'], street=data['street'], house=data['house'],structure=data['structure'],
-                           building=data['building'], apartment=data['apartment'],phone=data['phone'])
+        if user_adress:
 
-    context = {'adress': user_adress, 'form': form}
+
+            user_adress.update(user=user_post, city=data['city'], street=data['street'], house=data['house'],
+                               structure=data['structure'],
+                               building=data['building'], apartment=data['apartment'], phone=data['phone'])
+        else:
+            user_adress.create(user=user_post, city=data['city'], street=data['street'], house=data['house'],
+                               structure=data['structure'],
+                               building=data['building'], apartment=data['apartment'], phone=data['phone'])
+        return redirect('accounts:contact')
+    else:
+        form = ContactForm()
+
+
+    context = { 'form': form,'adress': user_adress,}
     return render(request, 'contact.html',context)
+
+
+
+
+
 
 def user_logout(request):
     logout(request)

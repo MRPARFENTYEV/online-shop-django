@@ -51,11 +51,48 @@ class EditProfileForm(forms.ModelForm):
         model = User
         fields = ['full_name', 'email']
 
-    # full_name = forms.CharField(label='full_name')
-    # email = forms.EmailField(label='email')
-    # phone = forms.CharField(label='phone')
 class EditContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
         fields =['city','street','house','structure','building','apartment','phone']
+
+
+class ContactForm(forms.Form):
+    city = forms.CharField(
+        widget=forms.TextInput(
+            attrs={ 'visiblity': 'hidden ','placeholder': "Город"}
+        )
+    )
+    street = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'placeholder': "Улица"}
+        )
+    )
+    house = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'placeholder': "Дом"}
+        )
+    )
+    structure = forms.CharField(required=False,
+                               widget=forms.TextInput(
+                                   attrs={'placeholder': "Строение"}
+                               ))
+    building = forms.CharField(required=False,
+        widget=forms.TextInput(
+            attrs={'placeholder': "Корпус"}
+        )
+    )
+    apartment = forms.CharField(required=False,
+        widget=forms.TextInput(
+            attrs={'placeholder': "Квартира"}
+        )
+    )
+    phone = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'placeholder': "Телефон"}
+        )
+    )
+
+
+
