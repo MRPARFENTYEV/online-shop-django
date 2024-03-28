@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-
-from shop.models import Product, Category, Store
+from django.http import HttpResponse
+from shop.models import Product, Category, Store, Characteristic, ProductCharacteristic
 from cart.forms import QuantityForm
 
 
@@ -30,13 +30,15 @@ def product_detail(request, slug):
 	form = QuantityForm()
 	product = get_object_or_404(Product, slug=slug)
 	related_products = Product.objects.filter(category=product.category).all()[:5]
+	products = Product.objects.filter(slug=slug).first()# вывод характеристик
 	context = {
 		'title':product.title,
 		'product':product,
 		'form':form,
 		'store': product.store,
 		'favorites':'favorites',
-		'related_products':related_products
+		'related_products':related_products,
+		'products': products
 	}
 	if request.user.likes.filter(id=product.id).first():
 		context['favorites'] = 'remove'
@@ -91,6 +93,7 @@ def filter_by_category(request, slug):
 	return render(request, 'home_page.html', context)
 
 def filter_by_store(request, slug):
+	print(slug)
 
 	result = []
 	store = Store.objects.filter(slug=slug).first()
@@ -99,3 +102,13 @@ def filter_by_store(request, slug):
 		for product in Product.objects.filter(store=store.id).all()]
 	context = {'products': paginat(request ,result)}
 	return render(request, 'home_page.html', context)
+
+def list_characteristics(request,slug):
+
+    # characteristics = Characteristic.objects.all()
+	products = Product.objects.filter(slug=slug).first()
+    # context = {'characteristics':characteristics}
+	context = {'products':products }
+	return render(request,'characteristics.html',context)
+	# return render(request,products)
+

@@ -7,6 +7,8 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator as token_generator
+
+
 from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm, EditContactForm, ContactForm
 from accounts.models import User, Contact
 from django.views import View
@@ -198,3 +200,4 @@ def edit_profile(request):
         form = EditProfileForm(instance=request.user)
     context = {'title':'Edit Profile', 'form':form}
     return render(request, 'edit_profile.html', context)
+

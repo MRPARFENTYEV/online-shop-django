@@ -26,7 +26,7 @@ class Category(models.Model):
         return reverse('shop:product_detail', kwargs={'slug':self.slug})
 
     def save(self, *args, **kwargs):
-        # self.slug = slugify(self.title)
+        self.slug = slugify(str(self.title) +'_slug')
         return super().save(*args, **kwargs) # Эта функция сохраняет модель в базе данных.
                                             # Она вызывает метод save() родительского класса (в данном случае Category),
                                             # передавая ему все аргументы, полученные при
@@ -72,6 +72,19 @@ class Product(models.Model):
     def save(self, *args, **kwargs): #создаю слаги
         self.slug = slugify(str(self.title) +'_'+ str(self.store))
         return super().save(*args, **kwargs)
+
+
+class Characteristic(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=120)
+    def __str__(self):
+        return self.name
+
+class ProductCharacteristic(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='positions')
+    characteristic = models.ForeignKey(Characteristic, on_delete=models.CASCADE, related_name='positions')
+
+
 
 
 

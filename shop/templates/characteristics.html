@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>Характеристики: {{products.title}}</p>
+{% for position in products.positions.all %}
+<p>{{position.characteristic.name}}:{{position.characteristic.description}}</p>
+{% endfor %}
+{% endblock %}

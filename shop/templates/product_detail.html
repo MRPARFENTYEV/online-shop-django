@@ -21,7 +21,10 @@
         <div class="border-bottom mb-2 pb-2">
             <span class="text-muted ">продавец:</span><a class="text-decoration-none text-dark{color: blue;}" href="{% url 'shop:filter_by_store' product.store.slug %}"> {{product.store}}</a>
         </div>
-
+        <p>Характеристики:</p>
+            {% for position in products.positions.all %}
+        <p>{{position.characteristic.name}}: {{position.characteristic.description}}</p>
+            {% endfor %}
         <!-- cart btn -->
         <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
             {% csrf_token %}
