@@ -55,6 +55,7 @@ class Product(models.Model):
     price = models.IntegerField()
     date_created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
+    quantity = models.IntegerField()
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'

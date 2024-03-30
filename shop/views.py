@@ -40,8 +40,10 @@ def product_detail(request, slug):
 		'related_products':related_products,
 		'products': products
 	}
+	print(context['products'])
 	if request.user.likes.filter(id=product.id).first():
 		context['favorites'] = 'remove'
+
 	return render(request, 'product_detail.html', context)
 
 

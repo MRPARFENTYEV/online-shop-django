@@ -23,6 +23,7 @@
         </div>
         <p>Характеристики:</p>
             {% for position in products.positions.all %}
+
         <p>{{position.characteristic.name}}: {{position.characteristic.description}}</p>
             {% endfor %}
         <!-- cart btn -->
