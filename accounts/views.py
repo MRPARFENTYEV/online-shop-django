@@ -29,8 +29,6 @@ def create_manager():
         # give this user manager role
         user.is_manager = True
         user.save()
-
-
 def confirm_email_notice(request,user): # перенаправление для вывода сообщения о необходимости подтвердить email
     context = {'notice': 'Перейдите по ссылке'}
     current_site = get_current_site(request)
@@ -64,18 +62,16 @@ def manager_login(request):
 def verify_email(request, uidb64, token):
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
-        print(user)
-        print(token)
         if user is not None and token_generator.check_token(user,token):
             print('Hurra')
             user.email_verify = True
             login(request,user)
             user.save()
-
-            context = {'massage' : 'Почта подтверждена, ура!'}
+            context = {'message': 'Почта подтверждена, ура!'}
+            return render(request, 'verifying_is_done.html', context)
         else:
-            context = {'massage': 'Ключ неверен'}
-        return render(request,'verifying_is_done.html',context)
+            context = {'message': 'Ссылка недействительна'}
+            return render(request,'verifying_is_done.html',context)
 
 
 def user_register(request):
