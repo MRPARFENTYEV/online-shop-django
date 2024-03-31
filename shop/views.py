@@ -38,11 +38,19 @@ def product_detail(request, slug):
 		'store': product.store,
 		'favorites':'favorites',
 		'related_products':related_products,
-		'products': products
+		'products': products # это добавляемые поля(параметры)
 	}
 	print(context['products'])
-	if request.user.likes.filter(id=product.id).first():
-		context['favorites'] = 'remove'
+	anonimus_user = request.user
+	if str(anonimus_user) == 'AnonymousUser':
+		return render(request, 'product_detail.html', context)
+
+	else:
+
+		if request.user.likes.filter(id=product.id).first():
+			context['favorites'] = 'remove'
+
+
 
 	return render(request, 'product_detail.html', context)
 

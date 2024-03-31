@@ -3,15 +3,15 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 from accounts import views
-from accounts.views import EmailVerify
+
 
 app_name = 'accounts'
 
 urlpatterns = [
 
     path('register/', views.user_register, name='user_register'),
-    path('confirm_email/', TemplateView.as_view(template_name= 'redirect_confirmation.html'),name= 'confirm_email'),
-    # path('verify_email/<uidb64>/<token>/', EmailVerify.as_view(), name='verify_email'),
+    path('confirm_email_notice/',views.confirm_email_notice, name='confirm_email_notice'),
+    path('verify_email/<uidb64>/<token>/', views.verify_email, name='verify_email'),
     # path('redirection/',views.redirection, name='redirection'),
     path('login/', views.user_login, name='user_login'),
     path('login/manager/', views.manager_login, name='manager_login'),

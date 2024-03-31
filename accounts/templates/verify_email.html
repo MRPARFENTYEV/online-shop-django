@@ -2,21 +2,11 @@
 
 {% autoescape off %}
 
-Hello {{ user.username }},
+Здравствуйте {{ user.full_mame }},
+Перейдите по ссылке, чтобы закончить регистрацию
 
-Please click the link below to activate your account:
+http://{{domain}}{% url 'verify_email' uidb64=uid token=token %}
 
-{% block reset_link %}
-
-<a href="http://{{ domain }}{% url 'verify_email' uidb64=uid token=token %}">Activate your account"></a>
-
-{% endblock %}
-
-If you did not register on our site, please ignore this message.
-
-Best regards,
-
-Your Website Team
 
 {% endautoescape %}
 
