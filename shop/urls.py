@@ -13,5 +13,6 @@ urlpatterns = [
 	path('search/', views.search, name='search'),
 	path('filter/<slug:slug>/', views.filter_by_category, name='filter_by_category'),
 	path('filter_by_store/<slug:slug>/', views.filter_by_store, name='filter_by_store'),
-	path('characteristics/<slug:slug>/',views.list_characteristics,name='characteristics')
+	path('characteristics/<slug:slug>/',views.list_characteristics,name='characteristics'),
+	path('update_prices/', views.update_prices, name='update_prices' ),
 ]

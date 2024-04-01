@@ -122,3 +122,11 @@ def list_characteristics(request,slug):
 	return render(request,'characteristics.html',context)
 	# return render(request,products)
 
+def update_prices(request):
+	context ={'request': request, 'text':'text'}
+	manager = request.user.is_manager
+	admin = request.user.is_admin
+	print(request.user.is_manager)
+	print(request.user.is_admin)
+	# print(file)
+	return render(request, 'update_prices.html',context)

@@ -6,6 +6,8 @@ import codecs
 from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
 
+from accounts.models import User
+
 
 class Category(models.Model):
     title = models.CharField(max_length=200)
@@ -35,6 +37,7 @@ class Category(models.Model):
 
 class Store(models.Model):
     title = models.CharField(max_length=25)
+    manager = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField(unique=True)
 
     class Meta:
@@ -85,7 +88,9 @@ class ProductCharacteristic(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='positions')
     characteristic = models.ForeignKey(Characteristic, on_delete=models.CASCADE, related_name='positions')
 
-
+class StoreUser(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='store_user')
+    manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name='store_user')
 
 
 

@@ -24,6 +24,7 @@
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 
           <li><a href="{% url 'shop:home_page' %}" class="nav-link px-2 text-dark">Онлайн Магазин - Потный айтишник</a></li>
+            <li><a href="{% url 'shop:update_prices' %}" class="nav-link px-2 text-dark">Администраторам</a></li>
           <!-- categories dropdown -->
           <div class="dropdown text-end">
             <a href="#" class=" mt-2 me-1 ms-1 text-dark d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Категории</a>
@@ -43,7 +44,7 @@
           </div>
 
           <div class="dropdown text-end">
-            <a href="#" class=" mt-2 me-1 ms-1 text-dark d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Магазины</a>
+
             <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
               {% for store in stors %}
               <!-- check if category is parent -->
