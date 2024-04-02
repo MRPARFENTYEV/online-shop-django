@@ -1,11 +1,15 @@
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse
+from django.core.files.uploadedfile import SimpleUploadedFile
+from shop.forms import StoreTitleForm
 from shop.models import Product, Category, Store, Characteristic, ProductCharacteristic
 from cart.forms import QuantityForm
-
+import pandas as pd
+from online_shop.settings import EMAIL_HOST_USER
 
 def paginat(request, list_objects):# https://docs.djangoproject.com/en/5.0/topics/pagination/
 
@@ -123,10 +127,39 @@ def list_characteristics(request,slug):
 	# return render(request,products)
 
 def update_prices(request):
-	context ={'request': request, 'text':'text'}
+	old_data = {'titles':[], 'prices':[]}
+	new_data={'titles':[], 'prices':[]}
 	manager = request.user.is_manager
-	admin = request.user.is_admin
-	print(request.user.is_manager)
-	print(request.user.is_admin)
-	# print(file)
-	return render(request, 'update_prices.html',context)
+	user = request.user.full_name
+	if manager:
+		user_store = request.user.store_name
+		store = Store.objects.get(title=user_store)
+		prods = Product.objects.filter(store=store)
+		for p in prods:
+			titles = p.title
+			old_prices = p.price
+			old_data['titles'].append(titles)
+			old_data['prices'].append(old_prices)
+		if request.POST:
+			file = request.FILES['myfile']
+			data = pd.read_excel(file)
+
+			for price, title in zip(data['price'], data['title']):
+				products = Product.objects.filter(store=store)
+				product = products.get(title = title)
+				new_data['titles'].append(product)
+				new_data['prices'].append(price)
+				product.price = price
+				product.save()
+				send_mail(f'Онлайн магазин - "Потный айтишник"', f'{store} Изменил цены на свои товары. Старое: {old_data}, новое:{new_data}',EMAIL_HOST_USER,
+						  [EMAIL_HOST_USER,])
+
+		context = {'text': 'text', 'user': user, 'user_store': user_store}
+
+		return render(request, 'update_prices.html', context)
+	else:
+			store = 'Вы не закреплены ни за одним магазином осуществляющим продажу на платформе "Потный айтишник". Уходите...'
+			context = {'text': 'text', 'user': user, 'user_store': store}
+			return render(request, 'update_prices.html', context)
+
+

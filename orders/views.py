@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 
+from accounts.models import Contact
 from shop.models import Product
 from .models import Order, OrderItem
 from cart.utils.cart import Cart
@@ -55,5 +56,9 @@ def fake_payment(request, order_id):
 @login_required
 def user_orders(request):
     orders = request.user.orders.all()
-    context = {'title':'Orders', 'orders': orders}
-    return render(request, 'user_orders.html', context)
+    addresses = Contact.objects.get(pk=request.user.pk)
+    if addresses:
+        context = {'title':'Orders', 'orders': orders, 'adresses': addresses}
+        return render(request, 'user_orders.html', context)
+    else:
+        return redirect('accounts:edit_profile')

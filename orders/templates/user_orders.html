@@ -19,6 +19,7 @@
         <p>Продукт: <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}">{{item.product.title}}</a></p>
         <p>Цена: ₽{{item.price}}</p>
         <p>Количество: {{item.quantity}}</p>
+        <p>Адрес: {{adresses.city}}, улица: {{adresses.street}}, дом: {{adresses.house}}, квартира: {{adresses.apartment}}, телефон: {{adresses.phone}} </p>
     </div>
 {% endfor %}
 <b>Всего: ${{ order.get_total_price }}</b>

@@ -13,6 +13,7 @@ class User(AbstractBaseUser):
     # set a manager role for shop manager to access orders and products
     is_manager = models.BooleanField(default=False)
     email_verify = models.BooleanField(default=False)
+    store_name = models.CharField(max_length=50, verbose_name='СлагМагазина', default='No_store')
 
 
     objects = UserManager()

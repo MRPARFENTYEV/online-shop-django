@@ -168,7 +168,6 @@ def user_logout(request):
 
 
 def edit_profile(request):
-    print(request.user)
 
     form = EditProfileForm(request.POST, instance=request.user)
     if form.is_valid():

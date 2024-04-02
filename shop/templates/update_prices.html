@@ -2,12 +2,23 @@
 {% load static %}
 {% block content %}
 {% autoescape off %}
-<form>
-  <div class="form-group">
-    <label for="exampleFormControlFile1">Обновить цены</label>
-    <input type="file" class="form-control-file" id="exampleFormControlFile1">
-  </div>
+
+    <p>Вы: {{user}}<p/>
+    <p>Менеджер магазина: {{user_store}}<p/>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+</head>
+<body>
+<form  method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <button class="btn btn-primary mt-3 w-50" type="submit">Обновить цены</button>
 </form>
+</body>
+</html>
 
 {% endautoescape %}
 {% endblock %}
