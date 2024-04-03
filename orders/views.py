@@ -56,9 +56,14 @@ def fake_payment(request, order_id):
 @login_required
 def user_orders(request):
     orders = request.user.orders.all()
-    addresses = Contact.objects.get(pk=request.user.pk)
+    addresses = Contact.objects.filter(user_id =request.user.pk )
+    for address in addresses:
+        user_adress = address
     if addresses:
-        context = {'title':'Orders', 'orders': orders, 'adresses': addresses}
+        context = {'title': 'Orders', 'orders': orders, 'adresses': address}
         return render(request, 'user_orders.html', context)
+    #
     else:
-        return redirect('accounts:edit_profile')
+        return redirect('accounts:contact')
+
+
