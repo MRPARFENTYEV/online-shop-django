@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% autoescape off %}
+<head>
+    <title>Доступность заказа товара</title>
+</head>
+<body>
+    <p>Вы: {{user}}<p/>
+
+    <p>Менеджер магазина: {{user_store}}<p/>
+
+    <p>Продукты магазина:<p/>
+
+        Название: {{product.title}} | Цена: {{product.price}} | Доступен: {{product.avaliable}}
+<form  action="" method="post"></form>
+    {% csrf_token %}
+    {{form.as_p}}
+
+</form>
+</body>
+
+
+
+
+{% endautoescape %}
+{% endblock %}

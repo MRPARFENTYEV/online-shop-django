@@ -16,7 +16,7 @@ class Category(models.Model):
         related_name='sub_categories', null=True, blank=True
     )
     is_sub = models.BooleanField(default=False)
-    slug = AutoSlugField(populate_from='title')
+    slug = models.SlugField(unique=True)
     class Meta:
         verbose_name = 'Категорию'
         verbose_name_plural = 'Категории'
@@ -28,7 +28,6 @@ class Category(models.Model):
         return reverse('shop:product_detail', kwargs={'slug':self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(str(self.title) +'_slug')
         return super().save(*args, **kwargs) # Эта функция сохраняет модель в базе данных.
                                             # Она вызывает метод save() родительского класса (в данном случае Category),
                                             # передавая ему все аргументы, полученные при
@@ -55,6 +54,7 @@ class Product(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
     price = models.IntegerField()
+    avaliable = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
     quantity = models.IntegerField()

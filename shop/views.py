@@ -5,12 +5,12 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.core.files.uploadedfile import SimpleUploadedFile
-from shop.forms import StoreTitleForm
+from shop.forms import StoreTitleForm, ProductForm
 from shop.models import Product, Category, Store, Characteristic, ProductCharacteristic
 from cart.forms import QuantityForm
 import pandas as pd
 from online_shop.settings import EMAIL_HOST_USER
-
+from django.forms import ModelForm
 def paginat(request, list_objects):# https://docs.djangoproject.com/en/5.0/topics/pagination/
 
 	p = Paginator(list_objects, 20)
@@ -162,4 +162,31 @@ def update_prices(request):
 			context = {'text': 'text', 'user': user, 'user_store': store}
 			return render(request, 'update_prices.html', context)
 
+def make_unavailable(request):
+	manager = request.user.is_manager
+	user = request.user.full_name
 
+	if manager:
+		user_store = request.user.store_name
+		store = Store.objects.get(title=user_store)
+		prods = Product.objects.filter(store=store)
+
+		for product in prods:
+			form = ProductForm(request.POST, instance=product)
+			print(form)
+			if form.is_valid():
+				form.save()
+			context = {'text': 'text', 'user': user, 'user_store': store,'product':product, 'form':form}
+
+			return render(request, 'make_products_unavaliable.html', context)
+
+
+# form = EditProfileForm(request.POST, instance=request.user)
+# if form.is_valid():
+# 	form.save()
+# 	messages.success(request, 'Ваш профиль был изменен', 'success')
+# 	return redirect('accounts:edit_profile')
+# else:
+# 	form = EditProfileForm(instance=request.user)
+# context = {'title': 'Edit Profile', 'form': form}
+# return render(request, 'edit_profile.html', context)

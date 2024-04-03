@@ -24,7 +24,7 @@
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 
           <li><a href="{% url 'shop:home_page' %}" class="nav-link px-2 text-dark">Онлайн Магазин - Потный айтишник</a></li>
-            <li><a href="{% url 'shop:update_prices' %}" class="nav-link px-2 text-dark">Менеджерам</a></li>
+
           <!-- categories dropdown -->
           <div class="dropdown text-end">
             <a href="#" class=" mt-2 me-1 ms-1 text-dark d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Категории</a>
@@ -81,11 +81,13 @@
         <div class="dropdown text-end">
           <a href="#" class="btn btn-primary text-white me-4 d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Профиль</a>
           <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
+
             <li><a href="{% url 'cart:show_cart' %}" <a class="dropdown-item">Корзина</a></li>
             <li><a href="{% url 'shop:favorites' %}" <a class="dropdown-item">Избранные товары</a></li>
             <li><a href="{% url 'orders:user_orders' %}" <a class="dropdown-item">Заказы</a></li>
             <li><a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">Редактировать профиль</a></li>
-            <li><a class="dropdown-item text-danger" href="{% url 'accounts:user_logout' %}">Выйти</a></li>
+              <li><a href="{% url 'shop:update_prices' %}" <a class="dropdown-item">Менеджерам</a></li>
+              <li><a class="dropdown-item text-danger" href="{% url 'accounts:user_logout' %}">Выйти</a></li>
           </ul>
         </div>
         {% else %}

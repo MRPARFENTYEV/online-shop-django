@@ -17,8 +17,8 @@ class ProductCharacteristicInline(admin.TabularInline):
     extra = 1
 @admin.register(Product)
 class Category(admin.ModelAdmin):
-    list_dispaly = ['category','store','title','price','date_created']
-    list_filter = ['category','store','title','price','date_created']
+    list_dispaly = ['category','store','title','price','date_created','slug','avaliable']
+    list_filter = ['category','store','title','price','date_created','avaliable']
     inlines = [ProductCharacteristicInline,]
 
 @admin.register(Store)
