@@ -15,6 +15,7 @@ class ProductForm(forms.ModelForm):
         model = Product
         # fields = '__all__'
         fields = ['avaliable']
+
 # class EditProfileForm(forms.ModelForm):
 #     class Meta:
 #         model = User

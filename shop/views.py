@@ -23,6 +23,9 @@ def paginat(request, list_objects):# https://docs.djangoproject.com/en/5.0/topic
 		page_obj = p.page(p.num_pages)
 	return page_obj
 
+def go_away(request):
+	context = {'context':'вернитесь'}
+	return render(request, 'go_away.html',context )
 
 def home_page(request):
 	products = Product.objects.all()
@@ -165,20 +168,26 @@ def update_prices(request):
 def make_unavailable(request):
 	manager = request.user.is_manager
 	user = request.user.full_name
+	products =[]
 
 	if manager:
 		user_store = request.user.store_name
 		store = Store.objects.get(title=user_store)
 		prods = Product.objects.filter(store=store)
-
+		print(prods)
 		for product in prods:
 			form = ProductForm(request.POST, instance=product)
-			print(form)
-			if form.is_valid():
-				form.save()
-			context = {'text': 'text', 'user': user, 'user_store': store,'product':product, 'form':form}
+			# print(form)
 
-			return render(request, 'make_products_unavaliable.html', context)
+			if form.is_valid():
+
+				form.save()
+		context = {'text': 'text', 'user': user, 'user_store': store, 'products': prods}
+		# context = {'text': 'text', 'user': user, 'user_store': store,'product':prods, 'form':form}
+
+		return render(request, 'make_products_unavaliable.html', context)
+	# else:
+	# 	return redirect('shop:go_away')
 
 
 # form = EditProfileForm(request.POST, instance=request.user)

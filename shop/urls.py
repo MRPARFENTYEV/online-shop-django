@@ -16,4 +16,6 @@ urlpatterns = [
 	path('characteristics/<slug:slug>/',views.list_characteristics,name='characteristics'),
 	path('update_prices/', views.update_prices, name='update_prices' ),
 	path('make_products_unavaliable/', views.make_unavailable, name='make_products_unavaliable' ),
+	path('go_away/', views.go_away, name='go_away'),
+
 ]

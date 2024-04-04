@@ -11,17 +11,20 @@
     <p>Менеджер магазина: {{user_store}}<p/>
 
     <p>Продукты магазина:<p/>
+    {% for product in products %}
+    {{ product }}
+
 
         Название: {{product.title}} | Цена: {{product.price}} | Доступен: {{product.avaliable}}
-<form  action="" method="post"></form>
+<form  action="" method="post">
     {% csrf_token %}
-    {{form.as_p}}
-
+    {{form}}
+<button class="btn btn-primary mt-1 w-30" type="submit">Изменить</button>
 </form>
 </body>
 
 
 
-
+    {% endfor %}
 {% endautoescape %}
 {% endblock %}

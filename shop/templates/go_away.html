@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% autoescape off %}
+
+{{form}}
+У Вас нет прав администрирования, можете зависать тут, но ничего интересного не джите. Предлагаем вернуться на главную
+
+{% endautoescape %}
+{% endblock %}

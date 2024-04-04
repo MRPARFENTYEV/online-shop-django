@@ -54,7 +54,7 @@ class Product(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
     price = models.IntegerField()
-    avaliable = models.BooleanField(default=True)
+    avaliable = models.BooleanField()
     date_created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
     quantity = models.IntegerField()
