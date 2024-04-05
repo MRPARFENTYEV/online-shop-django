@@ -21,6 +21,11 @@
         <div class="border-bottom mb-2 pb-2">
             <span class="text-muted ">продавец:</span><a class="text-decoration-none text-dark{color: blue;}" href="{% url 'shop:filter_by_store' product.store.slug %}"> {{product.store}}</a>
         </div>
+        <form  action="" method="post">
+        {% csrf_token %}
+            {{ avaliable }}
+            <button class="btn btn-primary mt-1 w-30" type="submit">Изменить</button>
+        </form>
 
 
         <p>Характеристики:</p>

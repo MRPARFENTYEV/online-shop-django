@@ -38,28 +38,41 @@ def product_detail(request, slug):
 	product = get_object_or_404(Product, slug=slug)
 	related_products = Product.objects.filter(category=product.category).all()[:5]
 	products = Product.objects.filter(slug=slug).first()# вывод характеристик
+	avaliable = ProductForm(request.POST, instance=product)
+	print(product.store_id)
+	store = Store.objects.get(pk=product.store_id)
+	print(store.title)
 	context = {
-		'title':product.title,
-		'product':product,
-		'form':form,
+		'title': product.title,
+		'product': product,
+		'form': form,
 		'store': product.store,
-		'favorites':'favorites',
-		'related_products':related_products,
-		'products': products # это добавляемые поля(параметры)
+		'favorites': 'favorites',
+		'related_products': related_products,
+		'products': products,  # это добавляемые поля(параметры)
+		'avaliable': avaliable
 	}
-	print(context['products'])
-	anonimus_user = request.user
-	if str(anonimus_user) == 'AnonymousUser':
+
+
+	if not hasattr(request.user, 'is_manager'):
+		anonimus_user = request.user
+
 		return render(request, 'product_detail.html', context)
+	if hasattr(request.user, 'is_manager'):
+		if request.user.is_manager == True and request.user.store_name == store.title:
 
-	else:
+			manager = request.user.is_manager
+			if manager:
+				if avaliable.is_valid():
+					avaliable.save()
+				return render(request, 'product_detail_manager.html', context)
+		if request.user.is_manager == False:
+			user = request.user
 
-		if request.user.likes.filter(id=product.id).first():
-			context['favorites'] = 'remove'
-
-
-
+	if request.user.likes.filter(id=product.id).first():
+		context['favorites'] = 'remove'
 	return render(request, 'product_detail.html', context)
+	# return render(request, 'product_detail.html', context)
 
 
 @login_required
@@ -95,7 +108,7 @@ def filter_by_category(request, slug):
 	"""
 	result = []
 	category = Category.objects.filter(slug=slug).first()
-	print(category)
+
 	[result.append(product) \
 		for product in Product.objects.filter(category=category.id).all()]
 
@@ -165,37 +178,4 @@ def update_prices(request):
 			context = {'text': 'text', 'user': user, 'user_store': store}
 			return render(request, 'update_prices.html', context)
 
-def make_unavailable(request):
-	manager = request.user.is_manager
-	user = request.user.full_name
-	products =[]
 
-	if manager:
-		user_store = request.user.store_name
-		store = Store.objects.get(title=user_store)
-		prods = Product.objects.filter(store=store)
-		print(prods)
-		for product in prods:
-			form = ProductForm(request.POST, instance=product)
-			# print(form)
-
-			if form.is_valid():
-
-				form.save()
-		context = {'text': 'text', 'user': user, 'user_store': store, 'products': prods}
-		# context = {'text': 'text', 'user': user, 'user_store': store,'product':prods, 'form':form}
-
-		return render(request, 'make_products_unavaliable.html', context)
-	# else:
-	# 	return redirect('shop:go_away')
-
-
-# form = EditProfileForm(request.POST, instance=request.user)
-# if form.is_valid():
-# 	form.save()
-# 	messages.success(request, 'Ваш профиль был изменен', 'success')
-# 	return redirect('accounts:edit_profile')
-# else:
-# 	form = EditProfileForm(instance=request.user)
-# context = {'title': 'Edit Profile', 'form': form}
-# return render(request, 'edit_profile.html', context)

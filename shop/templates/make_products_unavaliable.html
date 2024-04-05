@@ -11,8 +11,6 @@
     <p>Менеджер магазина: {{user_store}}<p/>
 
     <p>Продукты магазина:<p/>
-    {% for product in products %}
-    {{ product }}
 
 
         Название: {{product.title}} | Цена: {{product.price}} | Доступен: {{product.avaliable}}
@@ -25,6 +23,6 @@
 
 
 
-    {% endfor %}
+
 {% endautoescape %}
 {% endblock %}
