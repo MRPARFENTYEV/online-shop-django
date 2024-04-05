@@ -28,9 +28,22 @@ def go_away(request):
 	return render(request, 'go_away.html',context )
 
 def home_page(request):
-	products = Product.objects.all()
-	context = {'products': paginat(request ,products)} # тут в пагинатор приходит запрос и продукты передаются в виде списка
-	return render(request, 'home_page.html', context)
+	user = request.user
+	print(user)
+	if not hasattr(request.user, 'is_manager'):
+		products = Product.objects.filter(avaliable=True)
+		context = {'products': paginat(request,products)}  # тут в пагинатор приходит запрос и продукты передаются в виде списка
+		return render(request, 'home_page.html', context)
+
+	if user.is_manager:
+		products = Product.objects.all()
+		context = {'products': paginat(request ,products)} # тут в пагинатор приходит запрос и продукты передаются в виде списка
+		return render(request, 'home_page.html', context)
+	else:
+		products = Product.objects.filter(avaliable=True)
+		context = {'products': paginat(request,products)}  # тут в пагинатор приходит запрос и продукты передаются в виде списка
+		return render(request, 'home_page.html', context)
+
 
 
 def product_detail(request, slug):
@@ -39,9 +52,9 @@ def product_detail(request, slug):
 	related_products = Product.objects.filter(category=product.category).all()[:5]
 	products = Product.objects.filter(slug=slug).first()# вывод характеристик
 	avaliable = ProductForm(request.POST, instance=product)
-	print(product.store_id)
+
 	store = Store.objects.get(pk=product.store_id)
-	print(store.title)
+
 	context = {
 		'title': product.title,
 		'product': product,
