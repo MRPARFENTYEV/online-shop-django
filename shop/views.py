@@ -155,40 +155,37 @@ def list_characteristics(request,slug):
 	return render(request,'characteristics.html',context)
 	# return render(request,products)
 
+def writing_from_file(request, title, price):
+	print(title)
+	products = Product.objects.filter(title=title).update(price=price)
+
 def update_prices(request):
-	old_data = {'titles':[], 'prices':[]}
-	new_data={'titles':[], 'prices':[]}
+	user_name = request.user.full_name
+	user = request.user
+	user_store_name = user.store_name
+	# store = Store.objects.get(title=user_store_name)
 	manager = request.user.is_manager
 	user = request.user.full_name
 	if manager:
-		user_store = request.user.store_name
-		store = Store.objects.get(title=user_store)
-		prods = Product.objects.filter(store=store)
-		for p in prods:
-			titles = p.title
-			old_prices = p.price
-			old_data['titles'].append(titles)
-			old_data['prices'].append(old_prices)
+		print(manager)
 		if request.POST:
 			file = request.FILES['myfile']
 			data = pd.read_excel(file)
-
 			for price, title in zip(data['price'], data['title']):
-				products = Product.objects.filter(store=store)
-				product = products.get(title = title)
-				new_data['titles'].append(product)
-				new_data['prices'].append(price)
-				product.price = price
-				product.save()
-				send_mail(f'Онлайн магазин - "Потный айтишник"', f'{store} Изменил цены на свои товары. Старое: {old_data}, новое:{new_data}',EMAIL_HOST_USER,
-						  [EMAIL_HOST_USER,])
+				writing_from_file(request, title, price)
+				context = {'text': 'text', 'user': user, 'user_store': user_store_name}
 
-		context = {'text': 'text', 'user': user, 'user_store': user_store}
+				return render(request, 'update_prices.html', context)
+		else:
 
-		return render(request, 'update_prices.html', context)
+
+			context = {'text': 'text', 'user': user, 'user_store': user_store_name}
+
+			return render(request, 'update_prices.html', context)
+
 	else:
 			store = 'Вы не закреплены ни за одним магазином осуществляющим продажу на платформе "Потный айтишник". Уходите...'
-			context = {'text': 'text', 'user': user, 'user_store': store}
+			context = {'text': 'text', 'user': user_name, 'user_store': store}
 			return render(request, 'update_prices.html', context)
 
 
