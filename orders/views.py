@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 
-from accounts.models import Contact
+from accounts.models import Contact, User
 from online_shop.settings import EMAIL_HOST_USER
-from shop.models import Product
+from shop.models import Product, Store
 from .models import Order, OrderItem
 from cart.utils.cart import Cart
 
@@ -24,20 +24,67 @@ def no_way_to_order(request):
 
 @login_required
 def create_order(request):
+
     cart = Cart(request)
     order = Order.objects.create(user=request.user)
-    # products = Product.objects.filter(avaliable=False)
-    products = Product.objects.filter(avaliable=True)
-    if products:
-        for product in products:
-            product_slug = product.slug
-            print('________________________________________________',product_slug)
-    # return redirect('orders:pay_order', order_id=order.id)
-    # # for item in cart:
-    #     product_get = Product.objects.get(slug=item['product'])
-    #     product_get_quantity = product_get.quantity
-    #     # print(product_get)
-    #     # print(str(product_slug)==str(product_get))
+    for item in cart:
+        product_get = Product.objects.get(slug=item['product'])
+        store = Store.objects.get(id=product_get.store_id)
+        managers = User.objects.filter(store_name=store.title)
+
+
+        product_get_quantity = product_get.quantity
+        if item['quantity'] > product_get_quantity:
+            return not_enough_quantity(request)
+        else:
+            OrderItem.objects.create(
+                order=order, product=item['product'],
+                price=item['price'], quantity=item['quantity']
+        )
+        product_get.quantity = product_get.quantity - item['quantity']
+        product_get.save()
+        send_mail('Онлайн магазин - Потный айтишник',
+                  f'Уважаемый Потный айтишник, Ваш заказ создан: {order}', EMAIL_HOST_USER, [request.user.email])
+        for manager in managers:
+            send_mail('Онлайн магазин - Потный айтишник',
+                      f'Уважаемый Потный менеджер, заказ ожидает исполнения. Подробнее тут: http://127.0.0.1:8000/see_orders/ {order}', EMAIL_HOST_USER, [manager.email])
+
+
+        return redirect('orders:pay_order', order_id=order.id)
+
+
+# @login_required
+# def create_order(request):
+#     cart = Cart(request)
+#     # order = Order.objects.create(user=request.user)
+#     # # products = Product.objects.filter(avaliable=False)
+#     # products = Product.objects.filter(avaliable=False)
+#     for item in cart:
+#         product_get = Product.objects.get(slug=item['product'])
+#         products = Product.objects.filter(avaliable=False)
+#         print(product_get)
+#         product_get_quantity = product_get.quantity
+#         return redirect('orders:no_way_to_order')
+
+        #
+        # if item['quantity'] > product_get_quantity:
+        #     return not_enough_quantity(request)
+        # else:
+        #     OrderItem.objects.create(
+        #         order=order, product=item['product'],
+        #         price=item['price'], quantity=item['quantity']
+        # )
+    # print(products)
+    # if products:
+    #     for product in products:
+    #         product_slug = product.slug
+    #         print('________________________________________________',product_slug)
+    #
+    #         for item in cart:
+    #             product_get = Product.objects.get(slug=item['product'])
+    #             product_get_quantity = product_get.quantity
+    #         print("++++++++++++++++++++",product_get.slug)
+            # print(str(product_slug)==str(product_get))
     # if str(product_slug)==str(product_get):
     #     print("jjkjk")
         #     return redirect('orders:no_way_to_order')

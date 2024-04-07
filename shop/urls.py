@@ -16,7 +16,7 @@ urlpatterns = [
 	path('characteristics/<slug:slug>/',views.list_characteristics,name='characteristics'),
 	path('update_prices/', views.update_prices, name='update_prices' ),
 	path('go_away/', views.go_away, name='go_away'),
-	path('mistake/',views.get_orders, name='mistake' )
+	path('see_orders/',views.get_orders, name='see_orders' )
 
 ]
 # C:\Users\mrpar\Shop_python\price_operations\prices_update.xlsx

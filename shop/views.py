@@ -213,19 +213,20 @@ def create_file(products):
 			#
 			# context = {'order': items.order_id, 'price': items.price }
 			#
-			# return render(request, 'mistake.html', context)
+			# return render(request, 'see_orders.html', context)
 
 def get_orders(request):
 
 	user = request.user
 	manager = user.is_manager
+
 	store = Store.objects.get(title=user.store_name)
 	products = Product.objects.filter(store_id=store.pk)
 
 
 
 	context = {'orders': sorted(create_file(products), key=lambda order: order['order'])}
-	return render(request, 'mistake.html', context)
+	return render(request, 'see_orders.html', context)
 
 
 	# user_contact = Contact.objects.get(user_id=user.id)
@@ -238,7 +239,7 @@ def get_orders(request):
 	# 		orderitem= OrderItem.objects.filter(product_id=product.id)
 	#
 	# 	context = {'orders': create_file(orderitem)}
-	# 	return render(request, 'mistake.html', context)
+	# 	return render(request, 'see_orders.html', context)
 
 		# return render(request,create_file())
 
@@ -246,6 +247,6 @@ def get_orders(request):
 
 	# else:
 	# 	context = {'text': 'text'}
-	# 	return render(request, 'mistake.html', context)
+	# 	return render(request, 'see_orders.html', context)
 
 

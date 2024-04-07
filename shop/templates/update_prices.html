@@ -3,8 +3,8 @@
 {% block content %}
 {% autoescape off %}
 
-    <p>Вы: {{user}}<p/>
-    <p>Менеджер магазина: {{user_store}}<p/>
+    <p>Вы: {{user}}</p>
+    <p>Менеджер магазина: {{user_store}}</p>
 
 <html lang="en">
 <head>
@@ -12,11 +12,17 @@
     <title>File Upload</title>
 </head>
 <body>
+
+<p><a href="/see_orders/">Посмотреть заказы</a></p>
+
+
+
 <form  method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="myfile">
     <button class="btn btn-primary mt-3 w-30" type="submit">Обновить цены</button>
 </form>
+
 </body>
 </html>
 

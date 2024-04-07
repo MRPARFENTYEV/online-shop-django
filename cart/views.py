@@ -11,12 +11,17 @@ from shop.models import Product
 def add_to_cart(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
+    product_avaliable = product.avaliable
     form = QuantityForm(request.POST)
-    if form.is_valid():
+    if form.is_valid() and product_avaliable == True:
         data = form.cleaned_data
         cart.add(product=product, quantity=data['quantity'])
         messages.success(request, 'Добавлен в корзину!', 'info')
-    return redirect('shop:product_detail', slug=product.slug)
+        return redirect('shop:product_detail', slug=product.slug)
+    else:
+        messages.error(request,'Недоступен для заказа','info' )
+        return redirect('shop:product_detail', slug=product.slug)
+
 
 
 @login_required
