@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% autoescape off %}
+{%for product in orders%}
+
+
+
+
+    <h4><font color="green"> Заказ: {{product.order}} </font></h4>
+	<h6>Название товара: {{product.product}}</h6>
+	<h6>Количество: {{product.quantity}}</h6>
+	<h6>Цена: {{product.price}}</h6>
+	<h6>Город: {{product.contact}} Улица: {{product.street}} Дом: {{product.house}} Корпус: {{product.structure}}
+		Строение: {{product.building}} Квартира: {{product.apartment}} Телефон: {{product.phone}} </h6>
+
+
+{%endfor%}
+
+{% endautoescape %}
+{% endblock %}

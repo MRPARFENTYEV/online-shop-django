@@ -5,6 +5,9 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.core.files.uploadedfile import SimpleUploadedFile
+
+from accounts.models import Contact
+from orders.models import OrderItem, Order
 from shop.forms import StoreTitleForm, ProductForm
 from shop.models import Product, Category, Store, Characteristic, ProductCharacteristic
 from cart.forms import QuantityForm
@@ -136,11 +139,11 @@ def filter_by_category(request, slug):
 	return render(request, 'home_page.html', context)
 
 def filter_by_store(request, slug):
-	print(slug)
+
 
 	result = []
 	store = Store.objects.filter(slug=slug).first()
-	print(store)
+
 	[result.append(product) \
 		for product in Product.objects.filter(store=store.id).all()]
 	context = {'products': paginat(request ,result)}
@@ -167,7 +170,7 @@ def update_prices(request):
 	manager = request.user.is_manager
 	user = request.user.full_name
 	if manager:
-		print(manager)
+
 		if request.POST:
 			file = request.FILES['myfile']
 			data = pd.read_excel(file)
@@ -187,5 +190,62 @@ def update_prices(request):
 			store = 'Вы не закреплены ни за одним магазином осуществляющим продажу на платформе "Потный айтишник". Уходите...'
 			context = {'text': 'text', 'user': user_name, 'user_store': store}
 			return render(request, 'update_prices.html', context)
+
+def create_file(products):
+
+	info=[]
+	for product in products:
+		orderitem = OrderItem.objects.filter(product_id=product.id)
+		for items in orderitem:
+			orders= Order.objects.filter(id=items.id)
+			for order in orders:
+				products = Product.objects.filter(id=items.product_id)
+				client_contact = Contact.objects.get(user_id=order.user_id)
+				for product in products:
+					info.append(
+						{'order':order.id,'price': items.price, 'product': product.title, 'quantity': items.quantity,
+						 'contact':client_contact.city, 'street':client_contact.street, 'house':client_contact.house,
+						 'structure':client_contact.structure, 'building':client_contact.building, 'apartment':client_contact.apartment,
+						 'phone':client_contact.phone}
+					)
+	return info
+
+			#
+			# context = {'order': items.order_id, 'price': items.price }
+			#
+			# return render(request, 'mistake.html', context)
+
+def get_orders(request):
+
+	user = request.user
+	manager = user.is_manager
+	store = Store.objects.get(title=user.store_name)
+	products = Product.objects.filter(store_id=store.pk)
+
+
+
+	context = {'orders': sorted(create_file(products), key=lambda order: order['order'])}
+	return render(request, 'mistake.html', context)
+
+
+	# user_contact = Contact.objects.get(user_id=user.id)
+	# if manager:
+	# 	store = Store.objects.get(title=user.store_name)
+	# 	products = Product.objects.filter(store_id=store.pk)
+	# 	print()
+	# 	for product in products:
+	# 		# print(product.id)
+	# 		orderitem= OrderItem.objects.filter(product_id=product.id)
+	#
+	# 	context = {'orders': create_file(orderitem)}
+	# 	return render(request, 'mistake.html', context)
+
+		# return render(request,create_file())
+
+
+
+	# else:
+	# 	context = {'text': 'text'}
+	# 	return render(request, 'mistake.html', context)
 
 
