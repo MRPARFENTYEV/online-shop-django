@@ -1,0 +1,4 @@
+"id","image","title","description","price","date_created","slug","quantity","category_id","store_id","avaliable"
+3,products/pigafone_dMNnq9y.jpg,PigaphoneProXL,Революционный смартфон,80000,2024-04-04 13:32:23.408 +0300,pigaphoneproxl_bigpig,468,2,2,true
+2,products/macbook_xg6XAYV.jpg,PigBookAir,Революция...,80000,2024-04-03 19:28:06.072 +0300,pigbookair_bigpig,488,3,2,true
+1,products/Pixel_wYY1Coe.webp,Pingel7,Buy or Die,70000,2024-04-03 19:26:43.439 +0300,pingel7_pinmin,491,2,1,true

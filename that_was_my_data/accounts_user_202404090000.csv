@@ -1,0 +1,6 @@
+"id","password","last_login","email","full_name","is_admin","is_active","is_manager","email_verify","store_name"
+3,pbkdf2_sha256$720000$oGnqASHgcDBYpDNx7XQWq6$OncCyI2cYHPRyT6qSPlFaGm1pSBxwEcnudt2qzLcXIU=,2024-04-08 23:37:41.850 +0300,sudo_vp_game_account@mail.ru,Малиновый Артур Ярославич,false,true,true,true,BigPig
+5,pbkdf2_sha256$720000$gQb3yORfLfw3haZTlU3jJj$8q+XpOQyfVXn72aEmIgeKXZUuKZvL99a1AbLsSz/SwA=,2024-04-06 13:19:07.530 +0300,vparfentev@mail.ru,Твой Друг,false,true,false,true,No_store
+2,pbkdf2_sha256$720000$wqspOzFOGe36FuZTzZwfqh$7A7nTf6x8WLU4jcD9P4FZCY6/lJQ4PZfLQ4OnlfyJ3E=,2024-04-03 23:17:41.301 +0300,manager@example.com,shop manager,false,true,true,true,No_store
+1,pbkdf2_sha256$720000$mL9KEjchkZeIC5JhaHD88i$jsPhi8N6bYGTU2alXD6iS49Sgg4xaALb7IMjH5ro/ms=,2024-04-08 23:27:17.119 +0300,mr.parfentyev@gmail.com,vladislav,true,true,false,true,No_store
+6,pbkdf2_sha256$720000$lWlrodnmEvdfVDiCE5jduM$GrSiow+9neeQyZgaVK2hix1oW3d0XtnOkY962Ur/QQo=,2024-04-08 23:33:48.476 +0300,witcher396@gmail.com,Сладкий Пирожок,false,true,false,true,No_store

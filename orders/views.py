@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 from django.utils import timezone
 
 from accounts.models import Contact, User
+from accounts.views import user_register
 from online_shop.settings import EMAIL_HOST_USER
 from shop.models import Product, Store
 from .models import Order, OrderItem
@@ -24,33 +25,38 @@ def no_way_to_order(request):
 
 @login_required
 def create_order(request):
-
-    cart = Cart(request)
-    order = Order.objects.create(user=request.user)
-    for item in cart:
-        product_get = Product.objects.get(slug=item['product'])
-        store = Store.objects.get(id=product_get.store_id)
-        managers = User.objects.filter(store_name=store.title)
+    user_verification = request.user.email_verify
+    if user_verification:
 
 
-        product_get_quantity = product_get.quantity
-        if item['quantity'] > product_get_quantity:
-            return not_enough_quantity(request)
-        else:
-            OrderItem.objects.create(
-                order=order, product=item['product'],
-                price=item['price'], quantity=item['quantity']
-        )
-        product_get.quantity = product_get.quantity - item['quantity']
-        product_get.save()
-        send_mail('Онлайн магазин - Потный айтишник',
-                  f'Уважаемый Потный айтишник, Ваш заказ создан: {order}', EMAIL_HOST_USER, [request.user.email])
-        for manager in managers:
+        cart = Cart(request)
+        order = Order.objects.create(user=request.user)
+        for item in cart:
+            product_get = Product.objects.get(slug=item['product'])
+            store = Store.objects.get(id=product_get.store_id)
+            managers = User.objects.filter(store_name=store.title)
+
+
+            product_get_quantity = product_get.quantity
+            if item['quantity'] > product_get_quantity:
+                return not_enough_quantity(request)
+            else:
+                OrderItem.objects.create(
+                    order=order, product=item['product'],
+                    price=item['price'], quantity=item['quantity']
+            )
+            product_get.quantity = product_get.quantity - item['quantity']
+            product_get.save()
             send_mail('Онлайн магазин - Потный айтишник',
-                      f'Уважаемый Потный менеджер, заказ ожидает исполнения. Подробнее тут: http://127.0.0.1:8000/see_orders/ {order}', EMAIL_HOST_USER, [manager.email])
+                      f'Уважаемый Потный айтишник, Ваш заказ создан: {order}', EMAIL_HOST_USER, [request.user.email])
+            for manager in managers:
+                send_mail('Онлайн магазин - Потный айтишник',
+                          f'Уважаемый Потный менеджер, заказ ожидает исполнения. Подробнее тут: http://127.0.0.1:8000/see_orders/ {order}', EMAIL_HOST_USER, [manager.email])
 
 
-        return redirect('orders:pay_order', order_id=order.id)
+            return redirect('orders:pay_order', order_id=order.id)
+    else:
+        user_register(request)
 
 
 # @login_required

@@ -11,6 +11,8 @@ class Order(models.Model):
     status = models.BooleanField(default=False)
 
     class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
         ordering = ('-created',)
 
     def __str__(self):

@@ -8,9 +8,11 @@
 
 
     <h4><font color="green"> Заказ: {{product.order}} </font></h4>
-	<h6>Название товара: {{product.product}}</h6>
+	<h6>Заказчик: {{product.user_name}}</h6>
+	<h6>Название товара: {{product.product}}, Цена за штуку: {{product.item_price}}</h6>
 	<h6>Количество: {{product.quantity}}</h6>
-	<h6>Цена: {{product.price}}</h6>
+	<h6>Цена за заказ: {{product.price}}</h6>
+	<h6>Почта заказчика: {{product.email}}</h6>
 	<h6>Город: {{product.contact}} Улица: {{product.street}} Дом: {{product.house}} Корпус: {{product.structure}}
 		Строение: {{product.building}} Квартира: {{product.apartment}} Телефон: {{product.phone}} </h6>
 
