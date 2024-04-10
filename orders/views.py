@@ -16,21 +16,11 @@ from cart.utils.cart import Cart
 
 def not_enough_quantity(request):
     context = {'Not_enough': 'Товара недостаточно'}
-    print('not_enough_quantity',request)
     return render(request, 'not_enough_quantity.html', context)
 
 def no_way_to_order(request):
     context={'order':'order'}
     return render(request,'no_way_to_order.html',context)
-
-def product_quantity(cart):
-    for item in cart:
-        products_data = Product.objects.filter(slug=item['product'])
-        for product in products_data:
-            print('product', product)
-            print(product.quantity > item['quantity'])
-            return product.quantity > item['quantity']
-
 
 def manager_contact(cart):
     for item in cart:
@@ -43,31 +33,40 @@ def manager_contact(cart):
 
 
 
-
-
+# def enough_quant
+def product_quantity(item):
+    products_data = Product.objects.filter(slug=item['product'])
+    for product in products_data:
+        old_quontity = product.quantity
+        # print('old_quontity',old_quontity)
+        product.quantity = product.quantity - item['quantity']
+        product.save()
+        # print('product.quantity',product.quantity)
+        return old_quontity > item['quantity']
 
 @login_required
 def create_order(request):
     user = request.user
 
     cart = Cart(request)
-    product_quantity(cart)
-
     # print(manager_contact(cart))
-    if product_quantity(cart) == True:
-        order = Order.objects.create(user=request.user)
-        for item in cart:
+
+    order = Order.objects.create(user=request.user)
+    for item in cart:
+        # product_quantity(item)
+        # print(product_quantity(item))
+        if product_quantity(item) == True:
+
             OrderItem.objects.create(
                 order=order, product=item['product'],
                 price=item['price'], quantity=item['quantity']
         )
-            send_mail('Онлайн магазин - Потный айтишник',
-                                  f'Уважаемый Потный айтишник, Ваш заказ создан: {order}', EMAIL_HOST_USER, [request.user.email])
-            send_mail('Онлайн магазин - Потный айтишник',
-                      f'Уважаемый Потный менеджер, заказ создан, начинайте собирать: {order}', EMAIL_HOST_USER, [manager_contact(cart)])
+        send_mail('Онлайн магазин - Потный айтишник',
+                              f'Уважаемый Потный айтишник, Ваш заказ создан: {order}', EMAIL_HOST_USER, [request.user.email])
+        send_mail('Онлайн магазин - Потный айтишник',
+                  f'Уважаемый Потный менеджер, заказ создан, начинайте собирать: {order}', EMAIL_HOST_USER, [manager_contact(cart)])
 
-
-        return redirect('orders:pay_order', order_id=order.id)
+    return redirect('orders:pay_order', order_id=order.id)
 
 # @login_required
 # def create_order(request):
