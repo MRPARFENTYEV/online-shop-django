@@ -4,7 +4,7 @@
 <div class="col-md-2"></div>
 
 <div class="col-md-8 border rounded p-3">
-    <h3 class="text-muted">Your Order Amount is: ${{order.get_total_price}}</h3>
+    <h3 class="text-muted">Стоимость вашего заказа: ₽{{order.get_total_price}}</h3>
     <hr>
     <p><b>завершить покупку и расплатиться?</b></p>
     <a href="{% url 'cart:show_cart' %}" class="btn btn-danger">назад в корзину</a>
