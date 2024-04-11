@@ -18,10 +18,7 @@ from django.template.loader import get_template
 from django.utils.html import format_html
 import time
 def create_manager():
-    """
-    to execute once on startup:
-    this function will call in online_shop/urls.py
-    """
+
     if not User.objects.filter(email="manager@example.com").first():
         user = User.objects.create_user(
             "manager@example.com", 'shop manager','123'

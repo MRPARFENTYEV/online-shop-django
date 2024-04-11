@@ -6,7 +6,8 @@
 {% for order in orders %}
 <div class="col-md-7 mb-4 border rounded p-3">
 <!-- order id on right -->
-<b style="float: right;">номер заказа: {{ order.id }}</b>
+
+<b style="float: right;">номер заказа:  <a class="text-decoration-none" href=" order_detail/{{ order.id }}">{{ order.id }}</a></p></b>
 <!-- order payment status -->
 {% if order.status %}
     <h4><b class="text-success">Совершенный заказ</b></h4>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-7 mb-4 border rounded p-3">
+    <b style="float: right;">номер заказа: {{ order.id }}</b>
+{% if order.status %}
+    <h4><b class="text-success">Совершенный заказ</b></h4>
+    {% else %}
+    <h3><b class="text-danger">Отменен</b></h3>
+    {% endif %}
+    <div class="text-muted border-top pt-2"></div>
+{% for item in order.items.all  %}
+    <div class="border-bottom p-2">
+        <p>Продукт: <a class="text-decoration-none" href="{{ item.product.get_absolute_url }}">{{item.product.title}}</a></p>
+        <p>Цена: ₽{{item.price}}</p>
+        <p>Количество: {{item.quantity}}</p>
+        {% for address in addresses %}
+        <p>Город: {{address.city}}, улица: {{address.street}}, дом: {{address.house}}, квартира: {{address.apartment}}, телефон: {{address.phone}} </p>
+
+        {% endfor %}
+    </div>
+{% endfor %}
+<b>Всего: ₽{{ order.get_total_price }}</b>
+</div>
+{% endblock %}

@@ -68,6 +68,14 @@ def create_order(request):
 
     return redirect('orders:pay_order', order_id=order.id)
 
+
+def order_detail(request, order_id):
+    order = request.user.orders.get(id=order_id)
+    orderitem=OrderItem.objects.filter(order_id=order.id)
+    addresses = Contact.objects.filter(user_id=request.user.pk)
+    # order = Order.objects.get(id=order_id)
+    context={'order':order,'orderitem':orderitem, 'addresses' :addresses }
+    return render(request,'order_detail.html',context)
 # @login_required
 # def create_order(request):
 #     user_verification = request.user.email_verify
