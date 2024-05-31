@@ -33,7 +33,10 @@ def go_away(request):
 
 def home_page(request):
 	user = request.user
-	print(user)
+	context={}
+	# print(user)
+	# return render(request, 'home_page.html', context)
+
 	if not hasattr(request.user, 'is_manager'):
 		products = Product.objects.filter(avaliable=True)
 		context = {'products': paginat(request,products)}  # тут в пагинатор приходит запрос и продукты передаются в виде списка
@@ -51,6 +54,7 @@ def home_page(request):
 
 
 def product_detail(request, slug):
+
 	form = QuantityForm()
 	product = get_object_or_404(Product, slug=slug)
 	related_products = Product.objects.filter(category=product.category).all()[:5]
@@ -229,7 +233,7 @@ def create_file(products):
 	for product in products:
 		orderitem = OrderItem.objects.filter(product_id=product.id)
 		for items in orderitem:
-			print('items',items.order_id)
+
 			orders= Order.objects.filter(id=items.order_id)
 			# print('orders',orders)
 
@@ -264,7 +268,7 @@ def get_orders(request):
 
 
 
-	context = {'orders': sorted(create_file(products), key=lambda order: order['order'])}
+	context = {'orders': sorted(create_file(products), key=lambda order: order['order'], reverse=True)}
 	return render(request, 'see_orders.html', context)
 
 

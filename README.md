@@ -50,3 +50,11 @@
 #### ![изображение](https://github.com/MRPARFENTYEV/online-shop-django/assets/110676672/94c9455a-8177-422b-ad4f-33bc14fb2d09)
 
 #### Онлайн магазин - "Потный айтишник", с нами вы проведете время незабываемо.
+
+#### Список исправлений:
+
+#### https://pypi.org/project/django-bootstrap4/
+#### Добавлены bootstrap4/crispy формы
+Было: ![img.png](img.png)
+Стало: ![img_1.png](img_1.png)
+

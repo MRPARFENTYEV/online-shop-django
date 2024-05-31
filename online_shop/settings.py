@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'shop.apps.ShopConfig',
     'dashboard.apps.DashboardConfig',
+    'bootstrap4'
     # 'djoser',
     # 'rest_framework.authtoken'
 ]
@@ -73,17 +74,24 @@ WSGI_APPLICATION = 'online_shop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
+# 'testdjangoshop' emerge_db
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'testdjangoshop',
+
         'HOST': '127.0.0.1',
         'PORT': '5432',
         'USER': 'postgres',
         'PASSWORD': 'Sqlzaebal'
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'mydatabase',
+#     }
+# }
 AUTH_USER_MODEL = 'accounts.User'
 
 # Password validation
@@ -133,7 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-# CRISPY_TEMPLATE_PACK = 'uni form'
+# CRISPY_TEMPLATE_PACK = 'uni_form'
 LOGIN_URL = 'accounts:user_login'
 
 
@@ -144,3 +152,5 @@ EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mr.parfentyev@outlook.com'
 EMAIL_HOST_PASSWORD = 'OutLook_Zaebal'
+
+

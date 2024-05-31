@@ -1,18 +1,13 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load bootstrap4 %}
 {% block content %}
     <div class="col-md-6">
         <form method="POST">
             {% csrf_token %}
             <h3>Контакты пользователя</h3>
             <hr>
-
-            {{ form  }}
-            {% for a in adress %}
-            <p>Ваш указанный адрес:</p>
-            <p>Город: {{ a.city }}, Улица: {{ a.street }}, Дом: {{ a.house }}, Строение: {{ a.building }},
-                Квартира:{{ a.apartment }}, Телефон: {{ a.phone }}</p>
-            {% endfor %}
+            {% bootstrap_form form %}
             <div class="form-group">
                 <button class="btn btn-primary mt-3 w-100" type="submit">Обновить информацию</button>
             </div>

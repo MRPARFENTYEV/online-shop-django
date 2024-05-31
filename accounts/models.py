@@ -5,8 +5,8 @@ from .managers import UserManager
 from shop.models import Product
 
 class User(AbstractBaseUser):
-    email = models.EmailField(max_length=100, unique=True)
-    full_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100, unique=True, verbose_name='Электронная почта')
+    full_name = models.CharField(max_length=100, verbose_name='Полное имя')
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     likes = models.ManyToManyField(Product, blank=True, related_name='лайки')

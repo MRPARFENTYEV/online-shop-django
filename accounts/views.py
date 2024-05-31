@@ -9,7 +9,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator as token_generator
 from  django.urls import reverse
 
-from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm, EditContactForm, ContactForm
+from .forms import UserRegistrationForm, UserLoginForm, ManagerLoginForm, EditProfileForm, EditContactForm
 from accounts.models import User, Contact
 from django.views import View
 from django.core.exceptions import ValidationError
@@ -107,12 +107,18 @@ def user_register(request):
 def user_login(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
+
         if form.is_valid():
             data = form.cleaned_data
+            print(data)
+
             user = authenticate(
+
                 request, email=data['email'], password=data['password']
             )
+            print(user)
             if user is not None:
+
                 login(request, user)
                 return redirect('shop:home_page')
             else:
@@ -127,31 +133,17 @@ def user_login(request):
 def user_contact(request):
 
     user_post = request.user
-    user_adress = Contact.objects.filter(user_id=user_post.id)
-    all_adresses = Contact.objects.all()
-    if user_adress:
-        print(user_adress)
-    else: print('create')
-
+    address = Contact.objects.get(user_id=user_post.id)
     if request.method == 'POST':
-        form = EditContactForm()
-        data = request.POST
-        if user_adress:
-
-
-            user_adress.update(user=user_post, city=data['city'], street=data['street'], house=data['house'],
-                               structure=data['structure'],
-                               building=data['building'], apartment=data['apartment'], phone=data['phone'])
-        else:
-            user_adress.create(user=user_post, city=data['city'], street=data['street'], house=data['house'],
-                               structure=data['structure'],
-                               building=data['building'], apartment=data['apartment'], phone=data['phone'])
-        return redirect('accounts:contact')
+        form = EditContactForm(request.POST,instance=address)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Ваш адрес был изменен', 'success')
+            return redirect('accounts:edit_profile')
     else:
-        form = ContactForm()
+        form = EditContactForm( instance=address)
 
-
-    context = { 'form': form,'adress': user_adress,}
+    context = { 'form': form}
     return render(request, 'contact.html',context)
 
 

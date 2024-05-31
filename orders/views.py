@@ -42,7 +42,7 @@ def product_quantity(item):
         product.quantity = product.quantity - item['quantity']
         product.save()
         # print('product.quantity',product.quantity)
-        return old_quontity > item['quantity']
+        return old_quontity >= item['quantity']
 
 @login_required
 def create_order(request):
@@ -61,10 +61,11 @@ def create_order(request):
                 order=order, product=item['product'],
                 price=item['price'], quantity=item['quantity']
         )
-        send_mail('Онлайн магазин - Потный айтишник',
-                              f'Уважаемый Потный айтишник, Ваш заказ создан: {order}', EMAIL_HOST_USER, [request.user.email])
-        send_mail('Онлайн магазин - Потный айтишник',
-                  f'Уважаемый Потный менеджер, заказ создан, начинайте собирать: {order}', EMAIL_HOST_USER, [manager_contact(cart)])
+    send_mail('Онлайн магазин - Потный айтишник',
+                          f'Уважаемый Потный айтишник, Ваш заказ создан: {order}', EMAIL_HOST_USER, [request.user.email])
+    send_mail('Онлайн магазин - Потный айтишник',
+              f'Уважаемый Потный менеджер, заказ создан, начинайте собирать: {order}', EMAIL_HOST_USER, [manager_contact(cart)])
+
 
     return redirect('orders:pay_order', order_id=order.id)
 
