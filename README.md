@@ -1,4 +1,4 @@
-# Вас приветствует дипломный проект: онлайн магазин "Потный айтишник".
+# Вас приветствует онлайн магазин "Потный айтишник".
 #### Клонируйте проект к себе на компьютер *git clone https://github.com/MRPARFENTYEV/online-shop-django.git*
 #### Создайте миграции *python manage.py makemigrations*
 #### Примените миграции *python manage.py migrate*
